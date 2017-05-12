@@ -21,7 +21,7 @@ test:
     - child --version
 
 build:
-  number: 3
+  number: 4
 
 about:
   home: http://csdms.colorado.edu/wiki/Model:CHILD
