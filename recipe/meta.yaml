@@ -9,6 +9,7 @@ source:
   git_url: https://github.com/childmodel/{{ name }}
   patches:
     - fix-nullptr.patch
+    - fix-gridfile-to-cout.patch
 
 requirements:
   build:
