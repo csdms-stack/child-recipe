@@ -7,11 +7,15 @@ package:
 
 source:
   git_url: https://github.com/childmodel/{{ name }}
+  patches:
+    - fix-nullptr.patch
+    - fix-gridfile-to-cout.patch
 
 requirements:
   build:
     - cmake
-    - gcc # [not win]
+    - clangxx_osx-64 [osx]
+    - gxx_linux-64 [linux]
   run:
     - libgcc
 
@@ -21,7 +25,7 @@ test:
     - child --version
 
 build:
-  number: 7
+  number: 8
 
 about:
   home: http://csdms.colorado.edu/wiki/Model:CHILD
