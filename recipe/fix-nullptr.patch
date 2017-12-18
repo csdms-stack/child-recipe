@@ -1,5 +1,5 @@
 diff --git a/Child/Code/ChildInterface/child.cpp b/Child/Code/ChildInterface/child.cpp
-index 0969a3e..e60921a 100644
+index 0969a3e..69402c0 100644
 --- a/Child/Code/ChildInterface/child.cpp
 +++ b/Child/Code/ChildInterface/child.cpp
 @@ -560,10 +560,10 @@ double Child::RunOneStorm() {
@@ -7,16 +7,16 @@ index 0969a3e..e60921a 100644
    time->Advance( stormPlusDryDuration );
  	
 -  if( output > 0 && time->CheckOutputTime() )
-+  if( output > nullptr && time->CheckOutputTime() )
++  if( output != nullptr && time->CheckOutputTime() )
      output->WriteOutput( time->getCurrentTime() );
  	
 -  if( output > 0 && output->OptTSOutput() ) output->WriteTSOutput();
-+  if( output > nullptr && output->OptTSOutput() ) output->WriteTSOutput();
++  if( output != nullptr && output->OptTSOutput() ) output->WriteTSOutput();
    
    return( time->getCurrentTime() );
  }
 diff --git a/Child/Code/ChildInterface/childInterface.cpp b/Child/Code/ChildInterface/childInterface.cpp
-index 3317581..5137064 100644
+index 3317581..b3c3754 100644
 --- a/Child/Code/ChildInterface/childInterface.cpp
 +++ b/Child/Code/ChildInterface/childInterface.cpp
 @@ -859,10 +859,10 @@ RunOneStorm()
@@ -24,11 +24,11 @@ index 3317581..5137064 100644
    time->Advance( stormPlusDryDuration );
  	
 -  if( output > 0 && time->CheckOutputTime() )
-+  if( output > nullptr && time->CheckOutputTime() )
++  if( output != nullptr && time->CheckOutputTime() )
      output->WriteOutput( time->getCurrentTime() );
  	
 -  if( output > 0 && output->OptTSOutput() ) output->WriteTSOutput();
-+  if( output > nullptr && output->OptTSOutput() ) output->WriteTSOutput();
++  if( output != nullptr && output->OptTSOutput() ) output->WriteTSOutput();
    
    return( time->getCurrentTime() );
  }
@@ -37,7 +37,7 @@ index 3317581..5137064 100644
    
    my_node = ni.GetPByPermID( element_index );
 -  if( my_node<=0 ) return( -9999 );   // Temporary hacked NODATA code
-+  if( my_node <= nullptr ) return( -9999 );   // Temporary hacked NODATA code
++  if( my_node == nullptr ) return( -9999 );   // Temporary hacked NODATA code
    
    current_edge = my_node->getEdg();
    if( !current_edge ) return( -9999 );
@@ -46,7 +46,7 @@ index 3317581..5137064 100644
    
    my_node = ni.GetPByPermID( element_index );
 -  if( my_node<=0 ) return( -9999 );   // Temporary hacked NODATA code
-+  if( my_node <= nullptr ) return( -9999 );   // Temporary hacked NODATA code
++  if( my_node == nullptr ) return( -9999 );   // Temporary hacked NODATA code
    
    current_edge = my_node->getEdg();
    if( !current_edge ) return( -9999 );
@@ -55,12 +55,12 @@ index 3317581..5137064 100644
    // Get the node
    my_node = ni.GetPByPermID( element_index );
 -  if( my_node<=0 ) return( -9999 );   // Temporary hacked NODATA code
-+  if( my_node <= nullptr ) return( -9999 );   // Temporary hacked NODATA code
++  if( my_node == nullptr ) return( -9999 );   // Temporary hacked NODATA code
    
    // Get the right edge
    current_edge = my_node->getEdg();
 diff --git a/Child/Code/Erosion/erosion.cpp b/Child/Code/Erosion/erosion.cpp
-index f388592..063265e 100644
+index f388592..f728a13 100644
 --- a/Child/Code/Erosion/erosion.cpp
 +++ b/Child/Code/Erosion/erosion.cpp
 @@ -2922,7 +2922,7 @@ double tChemicalWeatheringDissolution::SoluteFlux( tLNode * n, double dt )
@@ -68,7 +68,7 @@ index f388592..063265e 100644
        tLayer lay;
        n->getLayersRefNC().removeNext( lay, lI.NodePtr() );
 -      assert( n>0 );
-+      assert( n > nullptr );
++      assert( n != nullptr );
      }
    }
    // multiply by area for total mass flux:
@@ -77,7 +77,7 @@ index f388592..063265e 100644
      tTriangle *gt = meshPtr->LocateTriangle( wtAvgX, wtAvgY );
      // if geometric center is within bounds:
 -    if( gt>0 )
-+    if( gt > nullptr )
++    if( gt != nullptr )
      { // find triangle's node with greatest drainage area (and in cluster):
        double gArea = 0.0;
        for( int i=0; i < 3; ++i )
@@ -86,7 +86,7 @@ index f388592..063265e 100644
    }
    // remove biomass and add to debris flow tally:
 -  if( cn->getVegCover().getTrees() > 0 )
-+  if( cn->getVegCover().getTrees() > nullptr )
++  if( cn->getVegCover().getTrees() != nullptr )
    {
      DF->addWoodVolume( ( cn->getVegCover().getTrees()->getBioMassStand()
                          + cn->getVegCover().getTrees()->getBioMassDown() )
@@ -95,7 +95,7 @@ index f388592..063265e 100644
  	      if( nn->public1 == 0 
             && 
 -           ct > 0 
-+           ct > nullptr 
++           ct != nullptr 
             && 
             nn->getZ() <= PlaneFit( nn->getX(), nn->getY(), ct ) )
          {
@@ -108,11 +108,11 @@ index f388592..063265e 100644
 -  if( deposit > 0 ) delete deposit;
 -  if( DF_fsPtr > 0 ) delete DF_fsPtr;
 -  if( DF_Hyd_fsPtr > 0 ) delete DF_Hyd_fsPtr;
-+  if( runout > nullptr ) delete runout;
-+  if( scour > nullptr ) delete scour;
-+  if( deposit > nullptr ) delete deposit;
-+  if( DF_fsPtr > nullptr ) delete DF_fsPtr;
-+  if( DF_Hyd_fsPtr > nullptr ) delete DF_Hyd_fsPtr;
++  if( runout != nullptr ) delete runout;
++  if( scour != nullptr ) delete scour;
++  if( deposit != nullptr ) delete deposit;
++  if( DF_fsPtr != nullptr ) delete DF_fsPtr;
++  if( DF_Hyd_fsPtr != nullptr ) delete DF_Hyd_fsPtr;
  }
  
  /**************************************************************************\
@@ -121,7 +121,7 @@ index f388592..063265e 100644
          erolist[j] = soilDeltaH * rockP->getDgrade(j)/rockP->getDepth();
        // is there a soil layer?
 -      if( soilP > 0 )
-+      if( soilP > nullptr )
++      if( soilP != nullptr )
          // yes; add material to layer above top rock layer:
          n->EroDep( i-1, erolist, time );
        else
@@ -130,7 +130,7 @@ index f388592..063265e 100644
      {
        nodeSoilThickness[i] = cn->getRegolithDepth();
 -      if( cn->getVegCover().getTrees() > 0 )
-+      if( cn->getVegCover().getTrees() > nullptr )
++      if( cn->getVegCover().getTrees() != nullptr )
        {
          nodeWoodDepth[i] = 
  	  cn->getVegCover().getTrees()->getBioMassStand() 
@@ -139,7 +139,7 @@ index f388592..063265e 100644
        const double sintheta = sin( slopeangle );
        double basalCohesion = 0.0;
 -      if( cn->getVegCover().getTrees() > 0 )
-+      if( cn->getVegCover().getTrees() > nullptr )
++      if( cn->getVegCover().getTrees() != nullptr )
  	basalCohesion = 
  	  cn->getVArea() / costheta
  	  * cn->getVegCover().getTrees()->getRootStrengthVert()
@@ -148,7 +148,7 @@ index f388592..063265e 100644
  	    nodeWaterDepth[i] = 
  	      nodeSaturatedDepth[i] * porosity; // water fraction
 -	    if( cn->getVegCover().getTrees() > 0 )
-+	    if( cn->getVegCover().getTrees() > nullptr )
++	    if( cn->getVegCover().getTrees() != nullptr )
  	      { // wood depth and root cohesion
  		nodeWoodDepth[i] = 
  		  cn->getVegCover().getTrees()->getBioMassStand() 
@@ -157,7 +157,7 @@ index f388592..063265e 100644
  		  weightedSlopeByLength * ce->getEVec().at(1);
  		// for lateral cohesion, sum up cohesion along edges:
 -		if( cn->getVegCover().getTrees() > 0 )
-+		if( cn->getVegCover().getTrees() > nullptr )
++		if( cn->getVegCover().getTrees() != nullptr )
  		  nodeLatCohesion[i] += edgeLatCohesion[iEdge];
  	      }
  	    nodeGradientX[i] /= sumWeights;
@@ -166,12 +166,12 @@ index f388592..063265e 100644
  	    // add basal root cohesion (resistance) to force balance
  	    // (uses flowedge surface slope angle):
 -	    if( cn->getVegCover().getTrees() > 0 )
-+	    if( cn->getVegCover().getTrees() > nullptr )
++	    if( cn->getVegCover().getTrees() != nullptr )
  	      nodeNetForceMag[i] -= 
  		cn->getVArea() / costheta
  		* cn->getVegCover().getTrees()->getRootStrengthVert()
 diff --git a/Child/Code/Erosion/erosion.h b/Child/Code/Erosion/erosion.h
-index 08e6a2c..1dfcdda 100644
+index 08e6a2c..61fe365 100644
 --- a/Child/Code/Erosion/erosion.h
 +++ b/Child/Code/Erosion/erosion.h
 @@ -1000,13 +1000,13 @@ inline tDebrisFlow::~tDebrisFlow() {Finalize();}
@@ -185,13 +185,13 @@ index 08e6a2c..1dfcdda 100644
 -  if( depositZoneMesh > 0 ) delete depositZoneMesh;
 -  if( wasList > 0 ) delete wasList;
 -  if( velocityList > 0 ) delete velocityList;
-+  if( slideCluster > nullptr ) delete slideCluster;
-+  if( scourCluster > nullptr ) delete scourCluster;
-+  if( scourZoneMesh > nullptr ) delete scourZoneMesh;
-+  if( depositCluster > nullptr ) delete depositCluster;
-+  if( depositZoneMesh > nullptr ) delete depositZoneMesh;
-+  if( wasList > nullptr ) delete wasList;
-+  if( velocityList > nullptr ) delete velocityList;
++  if( slideCluster != nullptr ) delete slideCluster;
++  if( scourCluster != nullptr ) delete scourCluster;
++  if( scourZoneMesh != nullptr ) delete scourZoneMesh;
++  if( depositCluster != nullptr ) delete depositCluster;
++  if( depositZoneMesh != nullptr ) delete depositZoneMesh;
++  if( wasList != nullptr ) delete wasList;
++  if( velocityList != nullptr ) delete velocityList;
  }
  /***************************************************************************/
  /**
@@ -200,12 +200,12 @@ index 08e6a2c..1dfcdda 100644
  // just checks whether already at outlet or flowing to outlet:
  inline bool tDF_RunOutNoStop::Start( tDebrisFlow *DF )
 -{return ( DF->getAtPtr()->getFlowEdg() > 0 && 
-+{return ( DF->getAtPtr()->getFlowEdg() > nullptr && 
++{return ( DF->getAtPtr()->getFlowEdg() != nullptr && 
           DF->getAtPtr()->getFlowEdg()->getDestinationPtr()->isNonBoundary() );}
  
  // just checks whether already at outlet:
 diff --git a/Child/Code/globalFns.cpp b/Child/Code/globalFns.cpp
-index 6cf131a..02f36e6 100644
+index 6cf131a..9abea17 100644
 --- a/Child/Code/globalFns.cpp
 +++ b/Child/Code/globalFns.cpp
 @@ -1008,7 +1008,7 @@ int ScanLineNodesByDistance( tLNode *cn, double maxDist,
@@ -213,7 +213,7 @@ index 6cf131a..02f36e6 100644
  	  closeEnough = false;
  	  tLNode* nxtPtr = ScanLineNextNode( prvPtr, curPtr, abc ); // global fn
 -	  if( nxtPtr > 0 && nxtPtr->isNonBoundary() )
-+	  if( nxtPtr > nullptr && nxtPtr->isNonBoundary() )
++	  if( nxtPtr != nullptr && nxtPtr->isNonBoundary() )
  	    {
  	      leftList.insertAtFront( nxtPtr );
  	      perpDist += fabs( DotProduct2D( curPtr, nxtPtr, uVec ) );
@@ -222,12 +222,12 @@ index 6cf131a..02f36e6 100644
  	  closeEnough = false;
  	  tLNode* nxtPtr = ScanLineNextNode( prvPtr, curPtr, abc ); // global fn
 -	  if( nxtPtr > 0 && nxtPtr->isNonBoundary() )
-+	  if( nxtPtr > nullptr && nxtPtr->isNonBoundary() )
++	  if( nxtPtr != nullptr && nxtPtr->isNonBoundary() )
  	    {
  	      rightList.insertAtBack( nxtPtr );
  	      perpDist += fabs( DotProduct2D( curPtr, nxtPtr, uVec ) );
 diff --git a/Child/Code/tMesh/tMesh.cpp b/Child/Code/tMesh/tMesh.cpp
-index 4617fb7..66568b0 100644
+index 4617fb7..a2b445e 100644
 --- a/Child/Code/tMesh/tMesh.cpp
 +++ b/Child/Code/tMesh/tMesh.cpp
 @@ -2745,7 +2745,7 @@ MakeMeshFromPointTilesAndArcGridMask( const tInputFile &infile, tRand &rand )
@@ -235,7 +235,7 @@ index 4617fb7..66568b0 100644
              else cn = on;
            }
 -          assert( cn > 0 );
-+          assert( cn > nullptr );
++          assert( cn != nullptr );
            removeList.insertAtBack( cn );
            keepChecking = true;
          }
@@ -244,12 +244,12 @@ index 4617fb7..66568b0 100644
      }
    }
 -  assert( bndyedg > 0 );
-+  assert( bndyedg > nullptr );
++  assert( bndyedg != nullptr );
    tPtrList< tSubNode > nbrList;
    tEdge* obedg = bndyedg;
    tSubNode* dn = static_cast<tSubNode*>( bndyedg->getDestinationPtrNC() );
 diff --git a/Child/Code/tStreamNet/tStreamNet.cpp b/Child/Code/tStreamNet/tStreamNet.cpp
-index 0f29970..7741f0e 100644
+index 0f29970..a0e2f27 100644
 --- a/Child/Code/tStreamNet/tStreamNet.cpp
 +++ b/Child/Code/tStreamNet/tStreamNet.cpp
 @@ -3276,7 +3276,7 @@ void tStreamNet::FindStreamLines( const tInputFile &infile,
@@ -257,7 +257,7 @@ index 0f29970..7741f0e 100644
        }
      }
 -    if( on > 0 )
-+    if( on > nullptr )
++    if( on != nullptr )
      {
        // put streamline nodes in list:
        tLNode *dn = 0;
@@ -266,12 +266,12 @@ index 0f29970..7741f0e 100644
          }
          on = dn;
 -      } while( dn > 0 && dn->getBoundaryFlag() == kNonBoundary );
-+      } while( dn > nullptr && dn->getBoundaryFlag() == kNonBoundary );
++      } while( dn != nullptr && dn->getBoundaryFlag() == kNonBoundary );
      }
      else
        // shouldn't happen
 diff --git a/Child/Code/tVegetation/tVegetation.cpp b/Child/Code/tVegetation/tVegetation.cpp
-index f4fa701..6fa7bb3 100644
+index f4fa701..7c90586 100644
 --- a/Child/Code/tVegetation/tVegetation.cpp
 +++ b/Child/Code/tVegetation/tVegetation.cpp
 @@ -573,7 +573,7 @@ void tForest::TreeFall( tTrees *tree )
@@ -279,7 +279,7 @@ index f4fa701..6fa7bb3 100644
        const double segy = tree->getNodePtr()->getY() + dist * sinangle;
        nt = ct->NbrToward( segx, segy );
 -      if( nt > 0 )
-+      if( nt > nullptr )
++      if( nt != nullptr )
  	ct = nt;
        // find which node to give wood:
        int i;
