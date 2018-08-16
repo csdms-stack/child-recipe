@@ -1,7 +1,7 @@
 #! /bin/bash
 
 if [ $(uname) == Darwin ]; then
-  export CXXFLAGS="-std=c++14"
+  export CXXFLAGS="-std=c++11"
 else
   export CXXFLAGS="-std=c++11"
 fi
