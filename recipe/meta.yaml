@@ -12,8 +12,9 @@ source:
 requirements:
   build:
     - cmake
-    - clangxx_osx-64 [osx]
-    - gxx_linux-64 [linux]
+    - {{ compiler('c') }}
+    # - clangxx_osx-64 [osx]
+    # - gxx_linux-64 [linux]
   run:
     - libgcc
 
