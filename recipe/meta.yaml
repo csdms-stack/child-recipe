@@ -12,7 +12,7 @@ source:
 requirements:
   build:
     - cmake
-    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     # - clangxx_osx-64 [osx]
     # - gxx_linux-64 [linux]
   run:
