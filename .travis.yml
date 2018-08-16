@@ -1,6 +1,7 @@
 language: generic
 os:
 - osx
+- linux
 osx_image: xcode6.4
 env:
   global:
