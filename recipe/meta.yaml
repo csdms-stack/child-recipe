@@ -7,9 +7,7 @@ package:
 
 source:
   git_url: https://github.com/childmodel/{{ name }}
-  patches:
-    - fix-nullptr.patch
-    - fix-gridfile-to-cout.patch
+  git_branch: mcflugen/fix-compile-errors
 
 requirements:
   build:
