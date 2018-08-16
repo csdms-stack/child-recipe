@@ -1,20 +1,20 @@
 {% set name = "child" %}
-{% set version = "10.7" %}
+{% set version = "18.08" %}
+{% set build = "0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/childmodel/{{ name }}
-  git_branch: mcflugen/fix-compile-errors
+  url: https://github.com/childmodel/{{ name }}/archive/v{{ version }}.tar.gz
+  fn: {{ name }}-{{ version }}.tar.gz
+  sha256: bfffd8bf8f71556d4c64c09ff8eed286daa6b8e0dfa702dd20fab6c4301ded07
 
 requirements:
   build:
     - cmake
     - {{ compiler('cxx') }}
-    # - clangxx_osx-64 [osx]
-    # - gxx_linux-64 [linux]
   run:
     - libgcc
 
@@ -24,7 +24,7 @@ test:
     - child --version
 
 build:
-  number: 0
+  number: {{ build }}
 
 about:
   home: http://csdms.colorado.edu/wiki/Model:CHILD
